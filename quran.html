@@ -4,9 +4,7 @@
   <meta charset="UTF-8" />
   <title>القرآن الكريم</title>
   <style>
-     @import url('https://fonts.googleapis.com/css2?family=Amiri&display=swap');
-    
-<head><link rel="stylesheet" href="style.css" /></head>
+    @import url('https://fonts.googleapis.com/css2?family=Amiri&display=swap');
 
     body {
       font-family: 'Amiri', serif;
@@ -48,8 +46,6 @@
       padding: 10px 15px;
       border-radius: 5px;
       cursor: pointer;
-      transition: 0.3s;
-      font-family: 'Amiri', serif;
     }
     .surah-button:hover {
       background-color: #e0e0e0;
@@ -60,7 +56,6 @@
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      font-family: 'Amiri', serif;
     }
     body.dark .surah-content {
       background: #1e1e1e;
@@ -68,7 +63,6 @@
     .ayah {
       margin: 10px 0;
       cursor: pointer;
-      font-family: 'Amiri', serif;
     }
     .ayah:hover {
       background: #eee;
@@ -94,6 +88,7 @@
       background: #eef;
       padding: 10px;
       border-radius: 5px;
+      text-align: right;
     }
     body.dark .tafsir {
       background: #2a2a6a;
@@ -115,7 +110,22 @@
   <h1>القرآن الكريم</h1>
 
   <div class="search-box">
-    <input type="text" id="searchInput" placeholder="ابحث في الآيات..." oninput="searchAyat()" />
+    <input type="text" id="searchInput" placeholder="ابحث في الآيات أو اسم السورة أو رقم الآية..." oninput="searchAyat()" />
+    <div style="margin-top: 10px;">
+      <label>التفسير:
+        <select id="tafsirSelect">
+          <option value="ar.jalalayn">الجلالين</option>
+          <option value="ar.saadi">السعدي</option>
+        </select>
+      </label>
+      <label style="margin-right: 15px;">الترجمة:
+        <select id="translationSelect">
+          <option value="">بدون ترجمة</option>
+          <option value="en.sahih">Sahih International</option>
+          <option value="en.yusufali">Yusuf Ali</option>
+        </select>
+      </label>
+    </div>
   </div>
 
   <div class="surah-list" id="surahList"></div>
@@ -172,21 +182,35 @@
     }
 
     async function showTafsir(ayah, ayahElement) {
+      const tafsirChoice = document.getElementById('tafsirSelect').value;
+      const translationChoice = document.getElementById('translationSelect').value;
+
       if (ayahElement.nextElementSibling && ayahElement.nextElementSibling.classList.contains('tafsir')) {
         ayahElement.nextElementSibling.remove();
         return;
       }
+
       const tafsirBox = document.createElement('div');
       tafsirBox.className = 'tafsir';
       tafsirBox.textContent = 'جاري تحميل التفسير...';
       ayahElement.after(tafsirBox);
 
       try {
-        const response = await fetch(`https://api.alquran.cloud/v1/ayah/${ayah.number}/ar.jalalayn`);
-        const data = await response.json();
-        tafsirBox.textContent = data.data.text || 'لم يتم العثور على تفسير.';
-      } catch (error) {
-        tafsirBox.textContent = 'حدث خطأ أثناء جلب التفسير.';
+        const tafsirRes = await fetch(`https://api.alquran.cloud/v1/ayah/${ayah.number}/${tafsirChoice}`);
+        const tafsirData = await tafsirRes.json();
+        tafsirBox.innerHTML = `<strong>التفسير:</strong><br>${tafsirData.data.text || 'غير متوفر'}`;
+      } catch {
+        tafsirBox.innerHTML = '<strong>التفسير:</strong><br>حدث خطأ.';
+      }
+
+      if (translationChoice) {
+        try {
+          const transRes = await fetch(`https://api.alquran.cloud/v1/ayah/${ayah.number}/${translationChoice}`);
+          const transData = await transRes.json();
+          tafsirBox.innerHTML += `<hr><strong>الترجمة:</strong><br>${transData.data.text || 'غير متوفرة'}`;
+        } catch {
+          tafsirBox.innerHTML += `<hr><strong>الترجمة:</strong><br>فشل في جلب الترجمة.`;
+        }
       }
     }
 
@@ -194,18 +218,30 @@
       const query = document.getElementById('searchInput').value.trim();
       const surahContent = document.getElementById('surahContent');
       if (query.length < 2) return;
+
       surahContent.innerHTML = `<h2>نتائج البحث عن: "${query}"</h2>`;
+      let found = false;
+
       surahsData.forEach(surah => {
         surah.ayahs.forEach(ayah => {
-          if (ayah.text.includes(query)) {
+          if (
+            ayah.text.includes(query) ||
+            surah.name.includes(query) ||
+            ayah.numberInSurah.toString() === query
+          ) {
             const p = document.createElement('p');
             p.className = 'ayah';
             p.textContent = `${ayah.text} ﴿${ayah.numberInSurah}﴾ - ${surah.name}`;
             p.onclick = () => showTafsir(ayah, p);
             surahContent.appendChild(p);
+            found = true;
           }
         });
       });
+
+      if (!found) {
+        surahContent.innerHTML += '<p>لا توجد نتائج مطابقة.</p>';
+      }
     }
 
     function toggleDarkMode() {
@@ -233,7 +269,6 @@
         return;
       }
 
-      favList.innerHTML = '<h3>الآيات المفضلة</h3>';
       surahsData.forEach(surah => {
         surah.ayahs.forEach(ayah => {
           if (favs.includes(ayah.number)) {
