@@ -146,54 +146,3 @@
   </script>
 </body>
 """
-# 📖 موقع القرآن الكريم
-
-موقع بسيط يعرض سور وآيات القرآن الكريم مع التلاوة والتفسير والبحث في الآيات، باستخدام HTML وJavaScript.
-
-## ✨ المميزات
-
-- عرض سور وآيات القرآن الكريم كاملة.
-- تشغيل التلاوة الصوتية لكل سورة (القارئ: مشاري راشد العفاسي).
-- عرض تفسير الآيات (تفسير الجلالين).
-- البحث في نصوص الآيات.
-- الوضع الليلي (Dark Mode).
-- تحديد الآيات كمفضلة.
-- حفظ آخر سورة تم قراءتها.
-
-## 📦 الاستخدام
-
-1. فك الضغط عن الملف `quran_site.zip`.
-2. افتح الملف `index.html` في متصفحك.
-3. استمتع بقراءة واستماع القرآن الكريم.
-
-## 🌐 المصدر
-
-يعتمد على:
-- [API من AlQuran.cloud](https://alquran.cloud/)
-- [MP3Quran.net](https://mp3quran.net/)
-
-## 🛠️ الإنشاء
-
-تم إنشاء هذا المشروع لأغراض تعليمية وتطويرية باستخدام HTML + CSS + JavaScript بدون إطار عمل.
-# Save files and zip them
-import os
-import zipfile
-
-project_dir = "/mnt/data/quran_site"
-os.makedirs(project_dir, exist_ok=True)
-
-with open(os.path.join(project_dir, "index.html"), "w", encoding="utf-8") as f:
-    f.write(html_content)
-
-with open(os.path.join(project_dir, "README.md"), "w", encoding="utf-8") as f:
-    f.write(readme_content.strip())
-
-zip_path = "/mnt/data/quran_site_with_readme.zip"
-with zipfile.ZipFile(zip_path, "w") as zipf:
-    for root, _, files in os.walk(project_dir):
-        for file in files:
-            full_path = os.path.join(root, file)
-            arcname = os.path.relpath(full_path, project_dir)
-            zipf.write(full_path, arcname)
-
-zip_path
