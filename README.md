@@ -1,12 +1,4 @@
 
----
-
-*جزى الله كل من ساهم في نشر كتاب الله خير الجزاء.*
-"""
-
-# HTML content previously provided by the user
-html_content = """<!DOCTYPE html>
-<html lang="ar">
 <head>
   <meta charset="UTF-8" />
   <title>القرآن الكريم</title>
