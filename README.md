@@ -1,6 +1,107 @@
 
 <html lang="ar">
 <head>
+
+    body {
+      font-family: 'Amiri', serif;
+      direction: rtl;
+      background-color: #f4f4f4;
+      padding: 20px;
+      text-align: center;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    body.dark {
+      background-color: #121212;
+      color: #ffffff;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    body.dark h1 {
+      color: #f9f9f9;
+    }
+    .search-box {
+      margin: 20px auto;
+    }
+    .search-box input {
+      padding: 10px;
+      width: 60%;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      text-align: right;
+    }
+    .surah-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+    .surah-button {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .surah-button:hover {
+      background-color: #e0e0e0;
+    }
+    .surah-content {
+      margin-top: 20px;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    body.dark .surah-content {
+      background: #1e1e1e;
+    }
+    .ayah {
+      margin: 10px 0;
+      cursor: pointer;
+    }
+    .ayah:hover {
+      background: #eee;
+    }
+    body.dark .ayah:hover {
+      background: #333;
+    }
+    .fav-list {
+      margin-top: 20px;
+      padding: 10px;
+      background: #ddf;
+      border-radius: 10px;
+    }
+    body.dark .fav-list {
+      background: #333366;
+    }
+    audio {
+      width: 100%;
+      margin-top: 10px;
+    }
+    .tafsir {
+      margin-top: 15px;
+      background: #eef;
+      padding: 10px;
+      border-radius: 5px;
+      text-align: right;
+    }
+    body.dark .tafsir {
+      background: #2a2a6a;
+    }
+    .toggle-dark {
+      position: absolute;
+      left: 20px;
+      top: 20px;
+      padding: 5px 10px;
+      cursor: pointer;
+      background: #ddd;
+      border: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
   <meta charset="UTF-8" />
   <title>القرآن الكريم</title>
   <style>
@@ -8,6 +109,7 @@
   </style>
 </head>
 <body>
+  
   <button class="toggle-dark" onclick="toggleDarkMode()">🌙</button>
   <h1>القرآن الكريم</h1>
 
