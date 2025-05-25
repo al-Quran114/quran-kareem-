@@ -1,6 +1,5 @@
 
 <head>
-  <meta charset="UTF-8" />
   <title>القرآن الكريم</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Amiri&display=swap');
