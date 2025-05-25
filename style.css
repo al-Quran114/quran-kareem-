@@ -3,24 +3,46 @@
 body {
   font-family: 'Amiri', serif;
   direction: rtl;
-  background-color: #f4f4f4;
+  background-image: url('https://cdn.pixabay.com/photo/2017/01/31/17/44/islamic-2027798_1280.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: #222;
   padding: 20px;
   text-align: center;
-  transition: background-color 0.3s, color 0.3s;
+  position: relative;
+  overflow-x: hidden;
 }
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: -1;
+}
+
 body.dark {
   background-color: #121212;
+  background-image: none;
   color: #ffffff;
 }
+
 h1 {
   color: #2c3e50;
 }
+
 body.dark h1 {
   color: #f9f9f9;
 }
+
 .search-box {
   margin: 20px auto;
 }
+
 .search-box input {
   padding: 10px;
   width: 60%;
@@ -28,12 +50,14 @@ body.dark h1 {
   border: 1px solid #ccc;
   text-align: right;
 }
+
 .surah-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 10px;
 }
+
 .surah-button {
   background-color: #fff;
   border: 1px solid #ccc;
@@ -43,9 +67,11 @@ body.dark h1 {
   transition: 0.3s;
   font-family: 'Amiri', serif;
 }
+
 .surah-button:hover {
   background-color: #e0e0e0;
 }
+
 .surah-content {
   margin-top: 20px;
   background: white;
@@ -54,42 +80,52 @@ body.dark h1 {
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   font-family: 'Amiri', serif;
 }
+
 body.dark .surah-content {
   background: #1e1e1e;
 }
+
 .ayah {
   margin: 10px 0;
   cursor: pointer;
   font-family: 'Amiri', serif;
 }
+
 .ayah:hover {
   background: #eee;
 }
+
 body.dark .ayah:hover {
   background: #333;
 }
+
 .fav-list {
   margin-top: 20px;
   padding: 10px;
   background: #ddf;
   border-radius: 10px;
 }
+
 body.dark .fav-list {
   background: #333366;
 }
+
 audio {
   width: 100%;
   margin-top: 10px;
 }
+
 .tafsir {
   margin-top: 15px;
   background: #eef;
   padding: 10px;
   border-radius: 5px;
 }
+
 body.dark .tafsir {
   background: #2a2a6a;
 }
+
 .toggle-dark {
   position: absolute;
   left: 20px;
