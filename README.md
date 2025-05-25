@@ -1,7 +1,4 @@
-# Recreate the README.md file and zip archive after code state reset
 
-# README.md content
-readme_content = """
 # 📖 موقع القرآن الكريم
 
 موقع بسيط يعرض سور وآيات القرآن الكريم مع التلاوة والتفسير والبحث في الآيات، باستخدام HTML وJavaScript.
